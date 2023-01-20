@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <!-- tailwind css -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- html to doc -->
+    <script src="../node_modules/file-saver/dist/FileSaver.min.js"></script>
+    <!-- wysiwyg editor | tinymce -->
+    <script src="../node_modules/tinymce/tinymce.js"></script>
+    <title>Better than MS word | Text Editor</title>
+    <script>
+      tinymce.init({
+        selector: "textarea",
+        skin: "oxide-dark",
+        height: 550,
+        plugins: "advlist autolink link image lists charmap print preview",
+        toolbar: "undo redo | bold italic | alignleft aligncenter alignright",
+        advlist_bullet_styles: "square",
+        advlist_number_styles:
+          "lower-alpha,lower-roman,upper-alpha,upper-roman",
+        plugins:
+          "preview powerpaste casechange importcss tinydrive searchreplace autolink autosave save directionality advcode visualblocks visualchars fullscreen image link media mediaembed template codesample table charmap pagebreak nonbreaking anchor tableofcontents insertdatetime advlist lists checklist wordcount tinymcespellchecker a11ychecker editimage help formatpainter permanentpen pageembed charmap tinycomments mentions quickbars linkchecker emoticons advtable export footnotes mergetags autocorrect",
+
+        formats: {
+          alignleft: {
+            selector:
+              "p,h1,h2,h3,h4,h5,h6,td,th,div,ul,ol,li,table,img,audio,video",
+            classes: "left",
+          },
+          aligncenter: {
+            selector:
+              "p,h1,h2,h3,h4,h5,h6,td,th,div,ul,ol,li,table,img,audio,video",
+            classes: "center",
+          },
+          alignright: {
+            selector:
+              "p,h1,h2,h3,h4,h5,h6,td,th,div,ul,ol,li,table,img,audio,video",
+            classes: "right",
+          },
+          alignjustify: {
+            selector:
+              "p,h1,h2,h3,h4,h5,h6,td,th,div,ul,ol,li,table,img,audio,video",
+            classes: "full",
+          },
+          bold: { inline: "span", classes: "bold" },
+          italic: { inline: "span", classes: "italic" },
+          underline: { inline: "span", classes: "underline", exact: true },
+          strikethrough: { inline: "del" },
+          forecolor: {
+            inline: "span",
+            classes: "forecolor",
+            styles: { color: "%value" },
+          },
+          hilitecolor: {
+            inline: "span",
+            classes: "hilitecolor",
+            styles: { backgroundColor: "%value" },
+          },
+          custom_format: {
+            block: "h1",
+            attributes: { title: "Header" },
+            styles: { color: "red" },
+          },
+        },
+        mobile: {
+          plugins:
+            "preview powerpaste casechange importcss tinydrive searchreplace autolink autosave save directionality advcode visualblocks visualchars fullscreen image link media mediaembed template codesample table charmap pagebreak nonbreaking anchor tableofcontents insertdatetime advlist lists checklist wordcount tinymcespellchecker a11ychecker help formatpainter pageembed charmap mentions quickbars linkchecker emoticons advtable footnotes mergetags autocorrect",
+        },
+        toolbar:
+          "undo redo | bold italic underline strikethrough | fontfamily fontsize blocks | alignleft aligncenter alignright alignjustify | outdent indent |  numlist bullist checklist | forecolor backcolor casechange permanentpen formatpainter removeformat | pagebreak | charmap emoticons | fullscreen  preview save print | insertfile image media pageembed template link anchor codesample | a11ycheck ltr rtl | showcomments addcomment | footnotes | mergetags",
+        quickbars_selection_toolbar:
+          "bold italic | quicklink h2 h3 blockquote quickimage quicktable",
+        spellchecker_ignore_list: ["Ephox", "Moxiecode"],
+        autocorrect_capitalize: true,
+        toolbar_mode: "sliding",
+        tinycomments_mode: "embedded",
+        image_caption: true,
+        noneditable_class: "mceNonEditable",
+        content_style: ".mymention{ color: gray; }",
+        contextmenu: "link image editimage table configurepermanentpen",
+      });
+      window.onload = function () {
+        document
+          .getElementById("download-button-doc")
+          .addEventListener("click", function () {
+            var content = tinymce.activeEditor.getContent();
+            var blob = new Blob([content], {
+              type: "application/msword;charset=utf-8",
+            });
+            saveAs(blob, "text.doc");
+          });
+
+        document
+          .getElementById("download-button-html")
+          .addEventListener("click", function () {
+            var content = tinymce.activeEditor.getContent();
+            var blob = new Blob([content], { type: "text/html;charset=utf-8" });
+            saveAs(blob, "text.html");
+          });
+      };
+    </script>
+  </head>
+  <body>
+    <textarea></textarea>
+    <div class="mt-3 flex gap-3">
+      <button
+        id="download-button-doc"
+        class="relative px-6 py-3 font-bold text-black group"
+      >
+        <span
+          class="absolute inset-0 w-full h-full transition duration-300 ease-out transform -translate-x-2 -translate-y-2 bg-red-300 group-hover:translate-x-0 group-hover:translate-y-0"
+        ></span>
+        <span
+          class="absolute inset-0 w-full h-full border-4 border-black"
+        ></span>
+        <span class="relative">Save as doc</span>
+      </button>
+      <button
+        id="download-button-html"
+        class="relative px-6 py-3 font-bold text-black group"
+      >
+        <span
+          class="absolute inset-0 w-full h-full transition duration-300 ease-out transform -translate-x-2 -translate-y-2 bg-red-300 group-hover:translate-x-0 group-hover:translate-y-0"
+        ></span>
+        <span
+          class="absolute inset-0 w-full h-full border-4 border-black"
+        ></span>
+        <span class="relative">Save as html</span>
+      </button>
+    </div>
+  </body>
+</html>
